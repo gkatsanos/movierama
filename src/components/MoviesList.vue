@@ -1,13 +1,13 @@
 <template>
   <div class="hello container">
     <h1>{{ msg }}</h1>
-    <h2>In theaters</h2>
+    <h2>{{ totalMovies }} movies in theaters this week</h2>
 
     <div class="panel panel-default media" v-for="movie in movies">
       <div class="panel-body">
         <div class="media-left">
           <a href="#">
-          <img class="media-object" v-bind:src="movie.posters.thumbnail" alt="...">
+          <img class="media-object" v-bind:src="movie.posters.thumbnail" v-bind:alt="movie.title" v-bind:title="movie.title">
           </a>
         </div>
         <div class="media-body">
@@ -34,13 +34,17 @@
 
 <script>
   import { movies } from '../mock'
+  import { Resource } from '../services/resource'
+  const resourceService = new Resource()
+  resourceService.getMovies()
   export default {
     name: 'hello',
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App',
+        msg: 'MovieRama',
         count: 0,
-        movies: movies.movies
+        movies: movies.movies,
+        totalMovies: movies.total
       }
     },
     methods: {
@@ -58,16 +62,6 @@
 <style scoped>
   h1, h2 {
     font-weight: normal;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
   }
 
   a {
