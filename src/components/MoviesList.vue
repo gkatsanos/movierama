@@ -1,7 +1,7 @@
 <template>
   <div class="hello container">
     <h1>{{ msg }}</h1>
-    <h2>{{ totalMovies }} movies in theaters this week</h2>
+    <h2>TODO FIX THIS movies in theaters this week</h2>
 
     <div class="panel panel-default media" v-for="movie in movies">
       <div class="panel-body">
@@ -33,24 +33,24 @@
 </template>
 
 <script>
-  import { movies } from '../mock'
+  // import { movies } from '../mock'
   import { Resource } from '../services/resource'
   const resourceService = new Resource()
-  var lala = null
   export default {
     name: 'hello',
     data () {
       return {
         msg: 'MovieRama',
         count: 0,
-        movies: movies.movies,
-        totalMovies: movies.total,
-        test: lala
+        movies: [],
+        test: null
       }
     },
     mounted: function () {
-      this.lala = resourceService.getMovies()
-      console.log(lala)
+      let that = this
+      resourceService.getMovies().then(function (result) {
+        that.movies = result.body
+      })
     },
     methods: {
       boom: function () {
