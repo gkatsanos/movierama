@@ -36,7 +36,7 @@
   import { movies } from '../mock'
   import { Resource } from '../services/resource'
   const resourceService = new Resource()
-  resourceService.getMovies()
+  var lala = null
   export default {
     name: 'hello',
     data () {
@@ -44,8 +44,13 @@
         msg: 'MovieRama',
         count: 0,
         movies: movies.movies,
-        totalMovies: movies.total
+        totalMovies: movies.total,
+        test: lala
       }
+    },
+    mounted: function () {
+      this.lala = resourceService.getMovies()
+      console.log(lala)
     },
     methods: {
       boom: function () {
