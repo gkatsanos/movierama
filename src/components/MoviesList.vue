@@ -2,6 +2,12 @@
   <div class="hello">
     <h2>TODO FIX THIS movies in theaters this week</h2>
 
+    <form class="form-inline" action="/" @submit.prevent="boom">
+      <input type="text" class="form-control" placeholder="search movie">
+      <button type="submit" class="btn btn-primary" @click="updateCount">
+        search
+      </button>
+    </form>
     <div class="panel panel-default media" v-for="movie in movies">
       <div class="panel-body">
         <div class="media-left">
@@ -17,17 +23,7 @@
       </div>
     </div>
 
-    <form action="/" @submit.prevent="boom">
-      <div class="error" v-show="!msg">
-        Whatever
-      </div>
-      <input type="text" v-model="msg">
-      <textarea v-model="msg"></textarea>
-      <button type="submit" @click="updateCount">
-        submit button
-        {{ count }}
-      </button>
-    </form>
+
   </div>
 </template>
 

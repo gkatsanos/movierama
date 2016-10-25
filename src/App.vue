@@ -2,9 +2,6 @@
   <div id="app" class="container">
     <img class="logo" src="./assets/logo.png" />
     <movieslist></movieslist>
-    <button @click="updateCount">
-      click here
-    </button>
   </div>
 </template>
 
