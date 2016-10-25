@@ -1,5 +1,6 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
+    <img class="logo" src="./assets/logo.png" />
     <movieslist></movieslist>
     <button @click="updateCount">
       click here
@@ -30,6 +31,10 @@
 </script>
 
 <style>
+  .logo {
+    width: 250px;
+  }
+
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

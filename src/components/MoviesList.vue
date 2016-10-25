@@ -1,6 +1,5 @@
 <template>
-  <div class="hello container">
-    <h1>{{ msg }}</h1>
+  <div class="hello">
     <h2>TODO FIX THIS movies in theaters this week</h2>
 
     <div class="panel panel-default media" v-for="movie in movies">
@@ -40,7 +39,6 @@
     name: 'hello',
     data () {
       return {
-        msg: 'MovieRama',
         count: 0,
         movies: [],
         test: null
