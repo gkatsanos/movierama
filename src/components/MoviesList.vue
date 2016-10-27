@@ -1,6 +1,8 @@
 <template>
-  <div class="hello">
-    <h2>{{ totalMovies }} movies in theaters this week</h2>
+  <section>
+    <h4 class="text-center">
+      <strong>{{ totalMovies }}</strong> movies in theaters this week
+    </h4>
 
     <form class="form-inline" action="/" @submit.prevent="boom">
       <input type="text" class="form-control" placeholder="search movie">
@@ -22,7 +24,10 @@
         </div>
       </div>
     </div>
-  </div>
+    <div class="text-center">
+      <img class="text-center loading margin-top-bottom-m" v-bind:class="{ invisible: !loading}" src="../assets/loading.svg" />
+    </div>
+  </section>
 </template>
 
 <script>
@@ -37,19 +42,24 @@
     data () {
       return {
         items: [],
-        totalMovies: 0
+        totalMovies: 0,
+        currentPage: 1,
+        loading: false
       }
     },
     mounted: function () {
       window.addEventListener('scroll', debounce(this.handleScroll, 300))
       this.getMovies()
     },
+    destroyed: function () {
+      window.removeEventListener('scroll', debounce(this.handleScroll, 300))
+    },
     methods: {
       boom: function () {
         console.log('Woho')
       },
       getMovies: function () {
-        resourceService.getMovies(1).then((result) => {
+        resourceService.getMovies(this.currentPage).then((result) => {
           this.items = result.movies
           this.totalMovies = result.total
         })
@@ -64,6 +74,9 @@
     font-weight: normal;
   }
 
+  .margin-top-bottom-m {
+    margin: 15px 0;
+  }
   a {
     color: #42b983;
   }

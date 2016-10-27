@@ -1,6 +1,10 @@
 <template>
   <div id="app" class="container">
-    <img class="logo" src="./assets/logo.png" />
+    <div class="text-center">
+      <a href="/">
+        <img class="logo" src="./assets/logo.png" />
+      </a>
+    </div>
     <movieslist></movieslist>
   </div>
 </template>
