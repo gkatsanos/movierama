@@ -32,7 +32,7 @@
 
 <script>
   // import { movies } from '../mock'
-  import debounce from 'lodash.debounce'
+  import throttle from 'lodash.throttle'
   import Resource from '../services/resource'
   import { mixin } from '../mixins/all'
   const resourceService = new Resource()
@@ -48,17 +48,18 @@
       }
     },
     mounted: function () {
-      window.addEventListener('scroll', debounce(this.handleScroll, 300))
+      window.addEventListener('scroll', throttle(this.handleScroll, 450))
       this.getMovies()
     },
     destroyed: function () {
-      window.removeEventListener('scroll', debounce(this.handleScroll, 300))
+      window.removeEventListener('scroll', throttle(this.handleScroll, 450))
     },
     methods: {
       boom: function () {
         console.log('Woho')
       },
       getMovies: function () {
+        this.loading = true
         resourceService.getMovies(this.currentPage).then((result) => {
           this.items = result.movies
           this.totalMovies = result.total
