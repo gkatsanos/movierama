@@ -1,14 +1,14 @@
 <template>
   <div class="hello">
-    <h2>TODO FIX THIS movies in theaters this week</h2>
+    <h2>{{ totalMovies }} movies in theaters this week</h2>
 
     <form class="form-inline" action="/" @submit.prevent="boom">
       <input type="text" class="form-control" placeholder="search movie">
-      <button type="submit" class="btn btn-primary" @click="updateCount">
+      <button type="submit" class="btn btn-primary" @click="getMovies">
         search
       </button>
     </form>
-    <div class="panel panel-default media" v-for="movie in movies">
+    <div class="panel panel-default media" v-for="movie in items">
       <div class="panel-body">
         <div class="media-left">
           <a href="#">
@@ -22,36 +22,37 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
   // import { movies } from '../mock'
-  import { Resource } from '../services/resource'
+  import debounce from 'lodash.debounce'
+  import Resource from '../services/resource'
+  import { mixin } from '../mixins/all'
   const resourceService = new Resource()
+
   export default {
-    name: 'hello',
+    mixins: [mixin],
     data () {
       return {
-        count: 0,
-        movies: [],
-        test: null
+        items: [],
+        totalMovies: 0
       }
     },
     mounted: function () {
-      let that = this
-      resourceService.getMovies().then(function (result) {
-        that.movies = result.body
-      })
+      window.addEventListener('scroll', debounce(this.handleScroll, 300))
+      this.getMovies()
     },
     methods: {
       boom: function () {
         console.log('Woho')
       },
-      updateCount: function () {
-        this.count++
+      getMovies: function () {
+        resourceService.getMovies(1).then((result) => {
+          this.items = result.movies
+          this.totalMovies = result.total
+        })
       }
     }
   }

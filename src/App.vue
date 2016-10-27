@@ -20,7 +20,6 @@
     },
     data () {
       return {
-        msg: 'Welcome to Your Vue.js App',
         count: 0
       }
     }
