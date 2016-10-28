@@ -10,20 +10,22 @@
         search
       </button>
     </form>
-    <div class="panel panel-default media" v-for="movie in items">
-      <div class="panel-body">
-        <div class="media-left">
-          <a href="#">
-          <img class="media-object" v-bind:src="movie.posters.thumbnail" v-bind:alt="movie.title" v-bind:title="movie.title">
-          </a>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">{{ movie.title }}</h4>
-          <h5>{{ movie.year }} - {{ movie.runtime }}mins - {{ movie.ratings.critics_score }}/100</h5>
-          <p>{{ movie.synopsis }}</p>
+    <transition-group name="fade">
+      <div class="panel panel-default media" v-for="movie in items" v-bind:key="movie">
+        <div class="panel-body" @click="getMovieDetails(`${movie.id}.json`,null)">
+          <div class="media-left">
+            <a href="#">
+            <img class="media-object" v-bind:src="movie.posters.thumbnail" v-bind:alt="movie.title" v-bind:title="movie.title">
+            </a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading">{{ movie.title }}</h4>
+            <h5>{{ movie.year }} - {{ movie.runtime }}mins - {{ movie.ratings.critics_score }}/100</h5>
+            <p>{{ movie.synopsis }}</p>
+          </div>
         </div>
       </div>
-    </div>
+    </transition-group>
     <div class="text-center">
       <img class="text-center loading margin-top-bottom-m" v-bind:class="{ invisible: !loading}" src="../assets/loading.svg" />
     </div>
@@ -49,7 +51,7 @@
     },
     mounted: function () {
       window.addEventListener('scroll', throttle(this.handleScroll, 450))
-      this.getMovies()
+      this.getMovies('lists/movies/in_theaters.json', 1, null)
     },
     destroyed: function () {
       window.removeEventListener('scroll', throttle(this.handleScroll, 450))
@@ -58,9 +60,16 @@
       boom: function () {
         console.log('Woho')
       },
-      getMovies: function () {
+      getMovieDetails: function (url, page, id) {
         this.loading = true
-        resourceService.getMovies(this.currentPage).then((result) => {
+        resourceService.getMovies(url, page, id).then((result) => {
+          this.items = result.movies
+          this.totalMovies = result.total
+        })
+      }
+      getMovies: function (url, page, id) {
+        this.loading = true
+        resourceService.getMovies(url, page, id).then((result) => {
           this.items = result.movies
           this.totalMovies = result.total
         })
@@ -71,6 +80,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-active {
+    opacity: 0
+  }
   h1, h2 {
     font-weight: normal;
   }

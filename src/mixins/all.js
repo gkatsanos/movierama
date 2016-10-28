@@ -18,7 +18,7 @@ export let mixin = {
       if (scrollPercentage > 0.90) {
         console.log('hit bottom')
         this.currentPage++
-        resourceService.getMovies(this.currentPage).then((result) => {
+        resourceService.getMovies('lists/moviesin_theaters.json', this.currentPage).then((result) => {
           this.items = this.items.concat(result.movies)
           this.loading = false
         })
