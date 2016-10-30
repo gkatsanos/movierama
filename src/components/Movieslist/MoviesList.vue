@@ -24,11 +24,9 @@
   import movie from '../Movie/movie'
   import throttle from 'lodash.throttle'
   import Resource from '../../services/resource'
-  import { mixin } from '../../mixins/all'
   const resourceService = new Resource()
 
   export default {
-    mixins: [mixin],
     components: {
       'movie': movie
     },
@@ -44,9 +42,6 @@
       window.addEventListener('scroll', throttle(this.handleScroll, 450))
       this.getMovies('lists/movies/in_theaters.json', 1, null)
     },
-    destroyed: function () {
-      window.removeEventListener('scroll', throttle(this.handleScroll, 450))
-    },
     methods: {
       getMovies: function (url, page, query) {
         this.loading = true
@@ -54,6 +49,23 @@
           this.items = result.movies
           this.totalMovies = result.total
         })
+      },
+      handleScroll: function () {
+        let d = document.body
+        let scrollTop = d.scrollTop
+        let windowHeight = window.innerHeight || document.documentElement.clientHeight
+        let height = d.offsetHeight - windowHeight
+        let scrollPercentage = (scrollTop / height)
+
+        // if the scroll is more than 90% from the top, load more content.
+        if (scrollPercentage > 0.90) {
+          this.loading = true
+          this.currentPage++
+          resourceService.getMovies('lists/movies/in_theaters.json', this.currentPage).then((result) => {
+            this.items = this.items.concat(result.movies)
+            this.loading = false
+          })
+        }
       }
     }
   }

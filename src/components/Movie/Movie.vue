@@ -26,14 +26,14 @@
 
             <p>{{ movie.synopsis }}</p>
 
-            <ul class="list-inline" v-if="movie.hasOwnProperty('abridged_directors') && movie.abridged_directors.length > 0">
+            <ul class="list-inline" v-if="movie.abridged_directors && movie.abridged_directors.length > 0">
               <li>Director(s)</li>
               <li v-for="(director, index) in movie.abridged_directors">
                 <span v-if="index < 3">{{ director.name }}</span>
               </li>
             </ul>
 
-            <ul class="list-inline" v-bind:class="{ hidden: !detailedOn}" v-if="movie.hasOwnProperty('similar') && movie.similar.length > 0">
+            <ul class="list-inline" v-bind:class="{ hidden: !detailedOn}" v-if="movie.similar && movie.similar.length > 0">
               <li>Related</li>
               <li v-for="movie in movie.similar">
                 <span>{{ movie.title }}</span>
@@ -43,7 +43,7 @@
           </div>
         </div>
         <div v-bind:class="{ hidden: !detailedOn}" >
-          <div class="col-md-6" v-if="movie.hasOwnProperty('reviews') && movie.reviews.length > 0">
+          <div class="col-md-6" v-if="movie.reviews && movie.reviews.length > 0">
             <h4 class="media-heading">Latest Reviews</h4>
             <div class="margin-top-bottom-m" v-for="review in movie.reviews">
               {{ review.quote }}
