@@ -1,3 +1,5 @@
+<style src="./styles/global.scss" lang="scss"></style>
+
 <template>
   <div id="app" class="container">
     <div class="text-center">
@@ -10,7 +12,7 @@
 </template>
 
 <script>
-  import movieslist from './components/movieslist'
+  import movieslist from './components/Movieslist/movieslist'
 
   export default {
     name: 'app',
@@ -24,22 +26,8 @@
     },
     data () {
       return {
-        count: 0
+
       }
     }
   }
 </script>
-
-<style>
-  .logo {
-    width: 250px;
-  }
-
-  #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color: #2c3e50;
-    margin-top: 60px;
-  }
-</style>

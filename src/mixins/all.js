@@ -16,7 +16,6 @@ export let mixin = {
       }
       // if the scroll is more than 90% from the top, load more content.
       if (scrollPercentage > 0.90) {
-        console.log('hit bottom')
         this.currentPage++
         resourceService.getMovies('lists/movies/in_theaters.json', this.currentPage).then((result) => {
           this.items = this.items.concat(result.movies)

@@ -4,9 +4,9 @@
       <strong>{{ totalMovies }}</strong> movies in theaters this week
     </h4>
 
-    <form class="form-inline" action="/" @submit.prevent="boom">
-      <input type="text" class="form-control" placeholder="search movie">
-      <button type="submit" class="btn btn-primary" @click="getMovies">
+    <form class="form-inline text-center margin-top-bottom-m" action="/" @submit.prevent="boom">
+      <input type="text" class="form-control input-lg" placeholder="search movie">
+      <button type="submit" class="btn btn-primary btn-lg" @click="getMovies">
         search
       </button>
     </form>
@@ -14,17 +14,17 @@
       <movie v-bind:movie="movie" v-for="movie in items" v-bind:key="movie"></movie>
     </transition-group>
     <div class="text-center">
-      <img class="text-center loading margin-top-bottom-m" v-bind:class="{ invisible: !loading}" src="../assets/loading.svg" />
+      <img class="text-center loading margin-top-bottom-m" v-bind:class="{ invisible: !loading}" src="../../assets/loading.svg" />
     </div>
   </section>
 </template>
 
 <script>
   // import { movies } from '../mock'
-  import movie from './movie'
+  import movie from '../Movie/movie'
   import throttle from 'lodash.throttle'
-  import Resource from '../services/resource'
-  import { mixin } from '../mixins/all'
+  import Resource from '../../services/resource'
+  import { mixin } from '../../mixins/all'
   const resourceService = new Resource()
 
   export default {
@@ -58,24 +58,3 @@
     }
   }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-  .fade-enter, .fade-leave-active {
-    opacity: 0
-  }
-  h1, h2 {
-    font-weight: normal;
-  }
-
-  .margin-top-bottom-m {
-    margin: 15px 0;
-  }
-  a {
-    color: #42b983;
-  }
-</style>
