@@ -4,9 +4,9 @@
       <strong>{{ totalMovies }}</strong> movies in theaters this week
     </h4>
 
-    <form class="form-inline text-center margin-top-bottom-m" action="/" @submit.prevent="boom">
-      <input type="text" class="form-control input-lg" placeholder="search movie">
-      <button type="submit" class="btn btn-primary btn-lg" @click="getMovies">
+    <form class="form-inline text-center margin-top-bottom-m" action="/" @submit.prevent="getMovies('movies.json', currentPage, 'mars')">
+      <input type="text" class="form-control input-lg" placeholder="search movie" @keydown="getMovies('movies.json', currentPage, 'mars')">
+      <button type="submit" class="btn btn-primary btn-lg" @click="getMovies('movies.json', currentPage, 'impossible')">
         search
       </button>
     </form>
@@ -48,9 +48,9 @@
       window.removeEventListener('scroll', throttle(this.handleScroll, 450))
     },
     methods: {
-      getMovies: function (url, page, id) {
+      getMovies: function (url, page, query) {
         this.loading = true
-        resourceService.getMovies(url, page, id).then((result) => {
+        resourceService.getMovies(url, page, query).then((result) => {
           this.items = result.movies
           this.totalMovies = result.total
         })
