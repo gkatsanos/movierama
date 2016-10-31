@@ -89,8 +89,7 @@
             assign(this.movie, result)
           })
           resourceService.getMovies(`movies/${id}/reviews.json?page_limit=2`).then((result) => {
-            assign(this.movie, result)
-            this.$forceUpdate()
+            this.$set(this.movie, 'reviews', result.reviews)
           })
           resourceService.getMovies(`movies/${id}/similar.json?limit=5`).then((result) => {
             this.$set(this.movie, {similar: result.movies})
