@@ -1,10 +1,16 @@
 <template>
   <section>
     <h4 class="text-center">
-      <strong>{{ totalMovies }}</strong> movies in theaters this week
+      <strong>{{ totalMovies }}</strong>
+      <span v-if="latestView">
+        movies in theaters this week
+      </span>
+      <span v-else>
+        movies found
+      </span>
     </h4>
 
-    <form class="form-inline text-center margin-top-bottom-m" action="/" @submit.prevent="getMovies('movies.json', currentPage, searchString)">
+    <form class="form-inline text-center margin-top-bottom-m" action="/" @submit.prevent="searchOnType(currentPage)">
       <input type="text" v-model="searchString" class="form-control input-lg" placeholder="search movie" @keyup="searchOnType(currentPage)">
       <button type="submit" class="btn btn-primary btn-lg">
         search
@@ -38,20 +44,21 @@
         currentPage: 1,
         loading: false,
         searchString: '',
-        flag: true
+        latestView: true
       }
     },
     mounted: function () {
       window.addEventListener('scroll', this.handleScroll)
-      window.addEventListener('DOMContentLoaded', this.getMovies('lists/movies/in_theaters.json', 1, null))
+      window.addEventListener('DOMContentLoaded', this.getMovies(APIURLS.theaters, 1, null))
     },
     methods: {
       searchOnType: debounce(function (currentPage) {
-        this.flag = false
+        this.totalMovies = 0
+        this.latestView = false
         this.currentPage = 1
         if (this.searchString.length > 2) {
           console.log(`Searching ${this.searchString}`)
-          this.getMovies('movies.json', currentPage, this.searchString)
+          this.getMovies(APIURLS.searchMovies, currentPage, this.searchString)
         }
       }, 400, {'leading': true, 'trailing': true}),
       getMovies: function (url, page, query) {
@@ -75,7 +82,7 @@
           console.log('hit bottom!')
           this.loading = true
           this.currentPage++
-          if (this.flag) {
+          if (this.latestView) {
             console.log('in full listing mode')
             resourceService.getMovies(APIURLS.theaters, this.currentPage).then((result) => {
               this.items = this.items.concat(result.movies)

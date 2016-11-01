@@ -12,7 +12,7 @@
           </div>
           <div class="media-body">
             <h4 class="media-heading">{{ movie.title }}</h4>
-            <ul class="list-inline" v-bind:class="{ hidden: !detailedOn}">
+            <ul class="list-inline" v-show="detailedOn">
               <li v-for="genre in movie.genres">{{ genre }}</li>
             </ul>
             <h5>{{ movie.year }} - {{ movie.runtime }} mins - {{ movie.ratings.critics_score }}/100</h5>
@@ -33,7 +33,7 @@
               </li>
             </ul>
 
-            <ul class="list-inline" v-bind:class="{ hidden: !detailedOn}" v-if="movie.similar && movie.similar.length > 0">
+            <ul class="list-inline" v-show="detailedOn" v-if="movie.similar && movie.similar.length > 0">
               <li>Related</li>
               <li v-for="movie in movie.similar">
                 <span>{{ movie.title }}</span>
@@ -42,7 +42,7 @@
 
           </div>
         </div>
-        <div v-bind:class="{ hidden: !detailedOn}" >
+        <div v-show="detailedOn">
           <div class="col-md-6" v-if="movie.reviews && movie.reviews.length > 0">
             <h4 class="media-heading">Latest Reviews</h4>
             <div class="margin-top-bottom-m" v-for="review in movie.reviews">
@@ -57,7 +57,7 @@
           </div>
         </div>
       </div>
-      <div class="loading-backdrop" v-bind:class="{ hidden: !loadingDetails}">
+      <div class="loading-backdrop" v-show="loadingDetails">
         <img class="text-center loading-icon margin-top-bottom-m" src="../../assets/loading.svg" />
       </div>
     </div>
