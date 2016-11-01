@@ -25,8 +25,8 @@
   import throttle from 'lodash.throttle'
   import debounce from 'lodash.debounce'
   import Resource from '../../services/resource'
+  import APIURLS from '../../apiurls'
   const resourceService = new Resource()
-
   export default {
     components: {
       'movie': movie
@@ -37,17 +37,22 @@
         totalMovies: 0,
         currentPage: 1,
         loading: false,
-        searchString: ''
+        searchString: '',
+        flag: true
       }
     },
     mounted: function () {
-      window.addEventListener('scroll', throttle(() => this.handleScroll('lists/movies/in_theaters.json'), 450))
-      this.getMovies('lists/movies/in_theaters.json', 1, null)
+      window.addEventListener('scroll', this.handleScroll)
+      window.addEventListener('DOMContentLoaded', this.getMovies('lists/movies/in_theaters.json', 1, null))
     },
     methods: {
       searchOnType: debounce(function (currentPage) {
-        console.log(`Searching ${this.searchString}`)
-        this.getMovies('movies.json', currentPage, this.searchString)
+        this.flag = false
+        this.currentPage = 1
+        if (this.searchString.length > 2) {
+          console.log(`Searching ${this.searchString}`)
+          this.getMovies('movies.json', currentPage, this.searchString)
+        }
       }, 400, {'leading': true, 'trailing': true}),
       getMovies: function (url, page, query) {
         console.log(query)
@@ -58,7 +63,7 @@
           this.loading = false
         })
       },
-      handleScroll: function (url) {
+      handleScroll: throttle(function () {
         let d = document.body
         let scrollTop = d.scrollTop
         let windowHeight = window.innerHeight || document.documentElement.clientHeight
@@ -67,14 +72,24 @@
 
         // if the scroll is more than 90% from the top, load more content.
         if (scrollPercentage > 0.90) {
+          console.log('hit bottom!')
           this.loading = true
           this.currentPage++
-          resourceService.getMovies(url, this.currentPage).then((result) => {
-            this.items = this.items.concat(result.movies)
-            this.loading = false
-          })
+          if (this.flag) {
+            console.log('in full listing mode')
+            resourceService.getMovies(APIURLS.theaters, this.currentPage).then((result) => {
+              this.items = this.items.concat(result.movies)
+              this.loading = false
+            })
+          } else {
+            console.log('in search mode')
+            resourceService.getMovies(APIURLS.searchMovies, this.currentPage, this.searchString).then((result) => {
+              this.items = this.items.concat(result.movies)
+              this.loading = false
+            })
+          }
         }
-      }
+      }, 500)
     }
   }
 </script>
