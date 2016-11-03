@@ -57,12 +57,10 @@
         this.latestView = false
         this.currentPage = 1
         if (this.searchString.length > 2) {
-          console.log(`Searching ${this.searchString}`)
           this.getMovies(APIURLS.searchMovies, currentPage, this.searchString)
         }
       }, 400, {'leading': true, 'trailing': true}),
       getMovies: function (url, page, query) {
-        console.log(query)
         this.loading = true
         resourceService.getMovies(url, page, query).then((result) => {
           this.items = result.movies
@@ -79,17 +77,15 @@
 
         // if the scroll is more than 90% from the top, load more content.
         if (scrollPercentage > 0.90) {
-          console.log('hit bottom!')
           this.loading = true
           this.currentPage++
+          // check to see if we're on "in theaters" mode or in search results mode
           if (this.latestView) {
-            console.log('in full listing mode')
             resourceService.getMovies(APIURLS.theaters, this.currentPage).then((result) => {
               this.items = this.items.concat(result.movies)
               this.loading = false
             })
           } else {
-            console.log('in search mode')
             resourceService.getMovies(APIURLS.searchMovies, this.currentPage, this.searchString).then((result) => {
               this.items = this.items.concat(result.movies)
               this.loading = false

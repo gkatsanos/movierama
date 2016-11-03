@@ -80,10 +80,13 @@
     },
     methods: {
       getMovieDetails: function (id) {
+        // toggle between detailed movie card mode and normal mode
         this.detailedOn = !this.detailedOn
         if (this.movie.hasOwnProperty('genres')) {
+          // avoid making an extra HTTP request if the data is already there
           return
         } else {
+          // show the loading spinner and perform the HTTP requests
           this.loadingDetails = true
           resourceService.getMovies(`movies/${id}.json`).then((result) => {
             assign(this.movie, result)
