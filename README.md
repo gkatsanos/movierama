@@ -2,9 +2,9 @@
 
 The web app is not working at it's current state - API Key is inactive at the time of writing : *03/11/2016, 11:02*
 
-There were two attempts to overcome the absence of CORS
-* reverse proxy (succesful until some days ago)
-* JSONP (unsuccesful: key is inactive)
+#### There were two attempts to overcome the absence of CORS: ####
+1. reverse proxy (succesful until some days ago)
+2. JSONP (unsuccesful: key is inactive)
 
 ## Build Setup
 

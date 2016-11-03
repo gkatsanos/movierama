@@ -26,7 +26,6 @@
 </template>
 
 <script>
-  // import { movies } from '../mock'
   import movie from '../Movie/movie'
   import throttle from 'lodash.throttle'
   import debounce from 'lodash.debounce'
