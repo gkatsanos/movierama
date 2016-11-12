@@ -86,7 +86,7 @@
             })
           } else {
             resourceService.getMovies(APIURLS.searchMovies, this.currentPage, this.searchString).then((result) => {
-              this.items = this.items.concat(result.movies)
+              this.items = this.items.concat(result.results)
               this.loading = false
             })
           }
