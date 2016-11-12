@@ -3,7 +3,7 @@
     <h4 class="text-center">
       <strong>{{ totalMovies }}</strong>
       <span v-if="latestView">
-        movies in theaters this week
+        movies found
       </span>
       <span v-else>
         movies found
@@ -62,8 +62,8 @@
       getMovies: function (url, page, query) {
         this.loading = true
         resourceService.getMovies(url, page, query).then((result) => {
-          this.items = result.movies
-          this.totalMovies = result.total
+          this.items = result.results
+          this.totalMovies = result.total_results
           this.loading = false
         })
       },
@@ -81,7 +81,7 @@
           // check to see if we're on "in theaters" mode or in search results mode
           if (this.latestView) {
             resourceService.getMovies(APIURLS.theaters, this.currentPage).then((result) => {
-              this.items = this.items.concat(result.movies)
+              this.items = this.items.concat(result.results)
               this.loading = false
             })
           } else {

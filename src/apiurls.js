@@ -1,6 +1,5 @@
 export default {
-  'base': '/api/public/v1.0',
-  'theaters': 'lists/movies/in_theaters.json',
-  'searchMovies': 'movies.json',
+  'theaters': 'movie/now_playing',
+  'searchMovies': 'search/movie',
   'movieDetails': 'movie'
 }
