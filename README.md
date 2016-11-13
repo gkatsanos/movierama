@@ -1,6 +1,6 @@
 # movierama #
 
-The web app is not working at it's current state - API Key is inactive at the time of writing : *03/11/2016, 11:02*
+A simple UI for browsing movies currently in theaters and searching for movie information built with Vue.js
 
 #### There were two attempts to overcome the absence of CORS: ####
 1. reverse proxy (succesful until some days ago)
